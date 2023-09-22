@@ -2,5 +2,3 @@
 
 npm install
 npm start
-
-sadadsa
