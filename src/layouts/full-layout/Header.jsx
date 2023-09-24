@@ -4,7 +4,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import AdbIcon from "@mui/icons-material/Adb";
 
 function Header() {
-  const pages = ["Products", "Pricing", "Blog"];
+  const pages = ["Categorías", "Recintos", "Deudas", "Eventos", "Inicio"];
   const settings = ["Profile", "Account", "Dashboard", "Logout"];
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
