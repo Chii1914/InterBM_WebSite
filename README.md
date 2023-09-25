@@ -6,4 +6,3 @@ npm start
 
 Páginas: categorías, recintos, deudas y eventos 
 
-Maxi: Re redactar, ruteo, ppt 
