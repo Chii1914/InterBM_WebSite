@@ -1,9 +1,8 @@
 import React from "react";
 import PageContainer from "../../components/container/PageContainer";
 import { Box, Button, Typography } from "@mui/material";
-import ListarSuperHeroes from "./components/ListarSuperHeroes";
 
-function Home() {
+function Deudas() {
   return (
     <PageContainer title="Pagina inicio" description="aaaaaaaaaaaaaaaaa">
       <Box
@@ -38,7 +37,7 @@ function Home() {
               letterSpacing: ".3rem",
             }}
           >
-            Super Hero App
+            DEUDAS PLATAPLATAPLATA
           </Typography>
           <Typography
             variant="h4"
@@ -51,7 +50,7 @@ function Home() {
               letterSpacing: ".3rem",
             }}
           >
-            Busca tu super heroe favorito
+            Busca tu PLATA
           </Typography>
           <Button
             variant="contained"
@@ -87,10 +86,9 @@ function Home() {
         >
           Listado de super heroes
         </Typography>
-        <ListarSuperHeroes />
       </Box>
     </PageContainer>
   );
 }
 
-export default Home;
+export default Deudas;
