@@ -2,6 +2,7 @@ import React from "react";
 import PageContainer from "../../components/container/PageContainer";
 import { Box, Button, Typography } from "@mui/material";
 import ListarSuperHeroes from "./components/ListarSuperHeroes";
+import background from "./components/portada.jpg"
 
 function Home() {
   return (
@@ -13,12 +14,12 @@ function Home() {
           alignItems: "center",
           width: "100%",
           backgroundImage:
-            "url(https://images6.alphacoders.com/705/705204.jpg)",
+           `url(${background})`,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
-          backgroundPositionY: "18%",
+          backgroundPositionY: "70%",
         }}
-        minHeight={600}
+        minHeight={700}
       >
         <Box
           display="flex"
@@ -31,27 +32,27 @@ function Home() {
             variant="h1"
             component="h1"
             sx={{
-              color: "white",
-              textShadow: "2px 2px 4px #000000",
+              color: "black",
+              textShadow: "4px 4px 8px #FFFFFF",
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
             }}
           >
-            Super Hero App
+            Inter Balón Mano
           </Typography>
           <Typography
             variant="h4"
             component="h2"
             sx={{
-              color: "white",
-              textShadow: "2px 2px 4px #000000",
+              color: "black",
+              textShadow: "2px 2px 4px #FFFFFF",
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
             }}
           >
-            Busca tu super heroe favorito
+            Información deportiva
           </Typography>
           <Button
             variant="contained"
