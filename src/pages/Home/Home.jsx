@@ -85,7 +85,7 @@ function Home() {
             textShadow: "2px 2px 4px #000000",
           }}
         >
-          Listado de super heroes
+          Listado de entrenadores
         </Typography>
         <ListarSuperHeroes />
       </Box>
