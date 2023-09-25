@@ -13,6 +13,7 @@ const Error = Loadable(lazy(() => import("../pages/Error/404")));
 
 /* ****Pages***** */
 const HomePage = Loadable(lazy(() => import("../pages/Home/Home")));
+const Deudas = Loadable(lazy(() => import("../pages/Deudas/Deudas")));
 
 /* ****Routes***** */
 
@@ -24,6 +25,7 @@ const Router = [
       { path: "", exact: true, element: <HomePage /> },
       { path: "*", element: <Navigate to="/404" /> },
       { path: "404", element: <Error /> },
+      { path: "deudas", exact: true, element: <Deudas />}
     ],
   },
 ];

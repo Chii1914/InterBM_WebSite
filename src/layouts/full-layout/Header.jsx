@@ -2,12 +2,15 @@ import { AppBar, Avatar, Box, Button, Container, IconButton, Menu, MenuItem, Too
 import React, { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import AdbIcon from "@mui/icons-material/Adb";
+import {Routes, Route, useNavigate} from 'react-router-dom';
 
 function Header() {
-  const pages = ["Products", "Pricing", "Blog"];
+  const pages = ["Categorías", "Recintos", "Deudas", "Eventos", "Inicio"];
   const settings = ["Profile", "Account", "Dashboard", "Logout"];
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -44,7 +47,7 @@ function Header() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            AQUÍ VA EL LOGO PULENTO
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>

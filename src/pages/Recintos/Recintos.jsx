@@ -2,7 +2,6 @@ import React from "react";
 import PageContainer from "../../components/container/PageContainer";
 import { Box, Button, Typography } from "@mui/material";
 import ListarSuperHeroes from "./components/ListarSuperHeroes";
-import background from "./components/portada.jpg"
 
 function Home() {
   return (
@@ -14,12 +13,12 @@ function Home() {
           alignItems: "center",
           width: "100%",
           backgroundImage:
-           `url(${background})`,
+            "url(https://images6.alphacoders.com/705/705204.jpg)",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
-          backgroundPositionY: "70%",
+          backgroundPositionY: "18%",
         }}
-        minHeight={700}
+        minHeight={600}
       >
         <Box
           display="flex"
@@ -32,27 +31,27 @@ function Home() {
             variant="h1"
             component="h1"
             sx={{
-              color: "black",
-              textShadow: "4px 4px 8px #FFFFFF",
+              color: "white",
+              textShadow: "2px 2px 4px #000000",
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
             }}
           >
-            Inter Balón Mano
+            Super Hero App
           </Typography>
           <Typography
             variant="h4"
             component="h2"
             sx={{
-              color: "black",
-              textShadow: "2px 2px 4px #FFFFFF",
+              color: "white",
+              textShadow: "2px 2px 4px #000000",
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
             }}
           >
-            Información deportiva
+            Busca tu super heroe favorito
           </Typography>
           <Button
             variant="contained"
@@ -86,7 +85,7 @@ function Home() {
             textShadow: "2px 2px 4px #000000",
           }}
         >
-          Listado de entrenadores
+          Listado de super heroes
         </Typography>
         <ListarSuperHeroes />
       </Box>
