@@ -86,7 +86,7 @@ function Home() {
             textShadow: "2px 2px 4px #000000",
           }}
         >
-          xd
+          
         </Typography>
         <ListarSuperHeroes />
       </Box>

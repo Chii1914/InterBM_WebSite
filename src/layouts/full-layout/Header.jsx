@@ -2,15 +2,13 @@ import { AppBar, Avatar, Box, Button, Container, IconButton, Menu, MenuItem, Too
 import React, { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import AdbIcon from "@mui/icons-material/Adb";
-import {Routes, Route, useNavigate} from 'react-router-dom';
+import { Link, Routes } from 'react-router-dom';
 
 function Header() {
   const pages = ["Categorías", "Recintos", "Deudas", "Eventos", "Inicio"];
   const settings = ["Profile", "Account", "Dashboard", "Logout"];
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-
-  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -35,8 +33,7 @@ function Header() {
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="/"
+            component={Link} to="/" 
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -81,7 +78,7 @@ function Header() {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography textAlign="center" component={Link} to={`/${page.toLowerCase()}`}>{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -90,8 +87,7 @@ function Header() {
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href="/"
+            component={Link} to="/" 
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -111,6 +107,7 @@ function Header() {
                 key={page}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
+                component={Link} to={`/${page.toLowerCase()}`} 
               >
                 {page}
               </Button>
