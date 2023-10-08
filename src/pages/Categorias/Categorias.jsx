@@ -2,7 +2,7 @@ import React from "react";
 import PageContainer from "../../components/container/PageContainer";
 import { Box, Button, Typography } from "@mui/material";
 
-function Categorías() {
+function categorias() {
   return (
     <PageContainer title="Pagina inicio" description="aaaaaaaaaaaaaaaaa">
       <Typography
@@ -22,4 +22,4 @@ function Categorías() {
   );
 }
 
-export default Categorías;
+export default categorias;
