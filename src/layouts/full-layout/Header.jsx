@@ -5,7 +5,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { Link, Routes } from 'react-router-dom';
 
 function Header() {
-  const pages = ["Categorías", "Recintos", "Deudas", "Eventos", "Inicio"];
+  const pages = ["categorias", "Recintos", "Deudas", "Eventos", "Inicio"];
   const settings = ["Profile", "Account", "Dashboard", "Logout"];
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
