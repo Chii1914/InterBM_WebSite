@@ -2,7 +2,6 @@ import React from "react";
 import PageContainer from "../../components/container/PageContainer";
 import { Box, Button, Typography } from "@mui/material";
 import ListarSuperHeroes from "./components/ListarSuperHeroes";
-import background from "./components/portada.jpg"
 
 function Home() {
   return (
@@ -14,7 +13,7 @@ function Home() {
           alignItems: "center",
           width: "100%",
           backgroundImage:
-           `url(${background})`,
+           `url(https://scontent-scl2-1.xx.fbcdn.net/v/t31.18172-8/12605418_919278914854705_8867189512935674290_o.jpg?_nc_cat=100&ccb=1-7&_nc_sid=2be8e3&_nc_ohc=49aj0r7oiu0AX_G9ggn&_nc_ht=scontent-scl2-1.xx&oh=00_AfC-XU4KN8fCWOfDiYvk8I0r4DfbklYrnnxBRlMazhDiLQ&oe=654D0E3F)`,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPositionY: "70%",
@@ -39,7 +38,7 @@ function Home() {
               letterSpacing: ".3rem",
             }}
           >
-            Inter Balón Mano
+          
           </Typography>
           <Typography
             variant="h4"
@@ -52,7 +51,6 @@ function Home() {
               letterSpacing: ".3rem",
             }}
           >
-            Información deportiva
           </Typography>
           <Button
             variant="contained"
