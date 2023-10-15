@@ -32,7 +32,7 @@ export default function SignInSide() {
     const handleSubmit = async e =>{
         e.preventDefault()
         try{
-            const res = await axios.post("/auth/register", inputs)
+            const res = await axios.post("/user/create", inputs)
         }catch(err){
             console.log(err)
     }
@@ -77,10 +77,10 @@ export default function SignInSide() {
                 margin="normal"
                 required
                 fullWidth
-                id="email"
+                id="username"
                 label="Rut del Usuario"
-                name="email"
-                autoComplete="email"
+                name="username"
+                autoComplete="username"
                 autoFocus
                 onChange={handleChange}
               />
