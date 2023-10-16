@@ -30,7 +30,7 @@ const Registrar = () => {
   const handleSubmit = async e =>{
     e.preventDefault()
     try{
-      const res = await axios.post("/auth/register", inputs)
+      const res = await axios.post("/auth/registro", inputs)
       
     } catch(err){
       console.log(err)
