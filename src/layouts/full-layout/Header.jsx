@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   AppBar,
   Avatar,
@@ -11,24 +12,24 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import AdbIcon from "@mui/icons-material/Adb";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, Link } from "react-router-dom";
 
 function Header() {
   const pages = [
-    { name: "Categorías", path: "/deudas" },
+    { name: "Categorías", path: "/categorias" },
     { name: "Recintos", path: "/recintos" },
     { name: "Deudas", path: "/deudas" },
     { name: "Eventos", path: "/eventos" },
-    { name: "Inicio", path: "/" },
+    { name: "Inicio", path: "/home" },
   ];
+
   const settings = ["Profile", "Account", "Dashboard", "Logout"];
-  const [anchorElNav, setAnchorElNav] = useState(null);
-  const [anchorElUser, setAnchorElUser] = useState(null);
 
   const navigate = useNavigate();
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -54,8 +55,8 @@ function Header() {
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="/"
+            component={Link}
+            to="/"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -99,10 +100,7 @@ function Header() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem
-                  key={page.name}
-                  onClick={() => handleCloseNavMenu(page.path)}
-                >
+                <MenuItem key={page.name} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}
@@ -112,8 +110,8 @@ function Header() {
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href="/"
+            component={Link}
+            to="/"
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -131,6 +129,8 @@ function Header() {
                 key={page.name}
                 onClick={() => handleCloseNavMenu(page.path)}
                 sx={{ my: 2, color: "white", display: "block" }}
+                component={Link}
+                to={page.path}
               >
                 {page.name}
               </Button>
