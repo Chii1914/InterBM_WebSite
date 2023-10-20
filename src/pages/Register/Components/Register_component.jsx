@@ -32,7 +32,7 @@ export default function SignInSide() {
     const handleSubmit = async e =>{
         e.preventDefault()
         try{
-            const res = await axios.post("/user/create", inputs)
+            const res = await axios.post("/user/", inputs)
         }catch(err){
             console.log(err)
     }
@@ -92,6 +92,17 @@ export default function SignInSide() {
                 label="Contraseña del usuario"
                 type="password"
                 id="password"
+                autoComplete="current-password"
+                onChange={handleChange}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="phone"
+                label="Teléfono del usuario"
+                type="text"
+                id="phone"
                 autoComplete="current-password"
                 onChange={handleChange}
               />
