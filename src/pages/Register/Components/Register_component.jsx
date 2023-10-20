@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from "axios"
 import {useState} from 'react'
+import Alertr from './Alert_r';
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
@@ -19,8 +20,14 @@ const defaultTheme = createTheme();
 
 export default function SignInSide() {
     const [inputs, setInputs] = useState({
-        username: "",
-        password: "",
+        RUN: "",
+        direccion_completa: "",
+        telefono_emergencia: "",
+        nombre_completo: "",
+        rol: "",
+        categoria: "",
+        telefono: "",
+        password: "",        
         
     })
     
@@ -33,8 +40,12 @@ export default function SignInSide() {
         e.preventDefault()
         try{
             const res = await axios.post("/user/", inputs)
+            console.log(res.status)
+            if(res.status === 200){
+                <Alertr />
+            }
         }catch(err){
-            console.log(err)
+            alert("Error al crear usuario")
     }
   }
 
@@ -77,9 +88,9 @@ export default function SignInSide() {
                 margin="normal"
                 required
                 fullWidth
-                id="username"
+                id="RUN"
                 label="Rut del Usuario"
-                name="username"
+                name="RUN"
                 autoComplete="username"
                 autoFocus
                 onChange={handleChange}
@@ -88,25 +99,72 @@ export default function SignInSide() {
                 margin="normal"
                 required
                 fullWidth
-                name="password"
-                label="Contraseña del usuario"
-                type="password"
-                id="password"
-                autoComplete="current-password"
+                name="direccion_completa"
+                label="Dirección completa del usuario"
+                type="text"
+                id="direccion_completa"
                 onChange={handleChange}
               />
               <TextField
                 margin="normal"
                 required
                 fullWidth
-                name="phone"
-                label="Teléfono del usuario"
+                name="telefono_emergencia"
+                label="Teléfono de emergencia del usuario"
                 type="text"
-                id="phone"
-                autoComplete="current-password"
+                id="telefono_emergencia"
                 onChange={handleChange}
               />
-    
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="nombre_completo"
+                label="Nombre completo del usuario"
+                type="text"
+                id="nombre_completo"
+                onChange={handleChange}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="rol"
+                label="Rol asociado al usuario"
+                type="text"
+                id="rol"
+                onChange={handleChange}
+              />
+               <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="categoria"
+                label="Categoría del usuario"
+                type="text"
+                id="categoria"
+                onChange={handleChange}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="telefono"
+                label="Teléfono asociado al usuario"
+                type="text"
+                id="telefono"
+                onChange={handleChange}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Contraseña asignada al usuario"
+                type="password"
+                id="password"
+                onChange={handleChange}
+              />
               <Button
                 type="submit"
                 fullWidth
