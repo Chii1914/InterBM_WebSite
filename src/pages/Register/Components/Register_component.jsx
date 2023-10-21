@@ -19,6 +19,8 @@ const defaultTheme = createTheme();
 
 
 export default function SignInSide() {
+    
+
     const [inputs, setInputs] = useState({
         RUN: "",
         direccion_completa: "",
@@ -31,7 +33,6 @@ export default function SignInSide() {
         
     })
     
-
     const handleChange = e =>{
         setInputs(prev=>({...prev, [e.target.name]: e.target.value}))
     } 
@@ -42,10 +43,10 @@ export default function SignInSide() {
             const res = await axios.post("/user/", inputs)
             console.log(res.status)
             if(res.status === 200){
-                <Alertr />
+             
             }
         }catch(err){
-            alert("Error al crear usuario")
+            
     }
   }
 
