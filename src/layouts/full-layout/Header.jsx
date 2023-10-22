@@ -22,7 +22,7 @@ function Header() {
     { name: "Recintos", path: "/recintos" },
     { name: "Deudas", path: "/deudas" },
     { name: "Eventos", path: "/eventos" },
-    { name: "Inicio", path: "/home" },
+    { name: "Inicio", path: "/" },
   ];
 
   const settings = ["Profile", "Account", "Dashboard", "Logout"];
