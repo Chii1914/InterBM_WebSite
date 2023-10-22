@@ -10,26 +10,19 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from "axios"
 import {useState} from 'react'
-import Alertr from './Alert_r';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
-
 const url = 'https://pbs.twimg.com/profile_images/681180785504862208/RNR8RGGM_400x400.jpg';
 
-
 export default function SignInSide() {
-
-
-    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
-
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
 
     const closeSuccessModal = () => {
       setIsSuccessModalOpen(false);
     };
-
 
     const [inputs, setInputs] = useState({
         RUN: "",
