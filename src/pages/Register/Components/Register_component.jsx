@@ -6,7 +6,6 @@ import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from "axios"
@@ -16,10 +15,10 @@ import Alertr from './Alert_r';
 
 const defaultTheme = createTheme();
 
+const url = 'https://pbs.twimg.com/profile_images/681180785504862208/RNR8RGGM_400x400.jpg';
 
 
 export default function SignInSide() {
-    
 
     const [inputs, setInputs] = useState({
         RUN: "",
@@ -41,7 +40,6 @@ export default function SignInSide() {
         e.preventDefault()
         try{
             const res = await axios.post("/user/", inputs)
-            console.log(res.status)
             if(res.status === 200){
              
             }
@@ -78,11 +76,10 @@ export default function SignInSide() {
               alignItems: 'center',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-              <LockOutlinedIcon />
-            </Avatar>
+            <Alertr />
+            <Avatar alt="Custom Avatar" src={url} />
             <Typography component="h1" variant="h5">
-              Sign in
+              Registrar usuario
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
