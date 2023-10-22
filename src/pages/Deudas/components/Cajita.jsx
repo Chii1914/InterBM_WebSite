@@ -1,59 +1,96 @@
 import React, { useState, useEffect } from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import axios from "axios";
 import {
-  getUsers,
-  getUsersByRun,
-  updateUser,
-  createUser,
-  deleteUser,
-} from "../../../servicios/userService";
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
 
-export default function BasicTable() {
-  const [usuarios, setUsuarios] = useState([]);
+const Categorias = () => {
+  const [users, setUsers] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("Todos");
 
-  const traerUsuario = async () => {
-    const getDePrueba = await getUsers();
-    console.log(getDePrueba.usuarios);
-    setUsuarios(getDePrueba.usuarios);
+  const categories = [
+    "Todos",
+    "juvenil",
+    "Categoria2",
+    "Categoria3",
+    "Categoria4",
+    "Categoria5",
+    "Categoria6",
+    "Categoria7",
+  ];
+
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event.target.value);
   };
 
   useEffect(() => {
-    traerUsuario();
-  }, []);
+    let url = "/usercat/" + selectedCategory;
+    if (selectedCategory === "Todos") url = "/user/";
+    console.log(url); // URL por defecto para obtener todos los usuarios
+    axios
+      .get(url)
+      .then((response) => {
+        setUsers(response.data.usuarios);
+      })
+      .catch((error) =>
+        console.error(
+          "Hubo un error al cargar los datos de los usuarios:",
+          error
+        )
+      );
+  }, [selectedCategory]);
+  console.log(users.usuarios);
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Nombre Completo</TableCell>
-            <TableCell align="Left">RUN</TableCell>
-            <TableCell align="Left">Direccion </TableCell>
-            <TableCell align="Left">Telefono de emergencia</TableCell>
-            <TableCell align="Left">Deuda</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {usuarios.map((usuarios) => (
-            <TableRow
-              key={usuarios.name}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell align="Left">{usuarios.nombre_completo}</TableCell>
-              <TableCell align="Left">{usuarios.run}</TableCell>
-              <TableCell align="Left">{usuarios.direccion_completa}</TableCell>
-              <TableCell align="Left">{usuarios.telefono}</TableCell>
-              <TableCell align="Left">{usuarios.protein}</TableCell>
-            </TableRow>
+    <div>
+      <label>
+        Categoría:
+        <select
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+        >
+          {categories.map((category, index) => (
+            <option key={index} value={category}>
+              {category}
+            </option>
           ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+        </select>
+      </label>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Nombre</TableCell>
+              <TableCell>Categoría</TableCell>
+              <TableCell>Dirección</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {Array.isArray(users) ? (
+              users.map((user, index) => (
+                <TableRow key={index}>
+                  <TableCell>{user.nombre_completo}</TableCell>
+                  <TableCell>{user.categoria}</TableCell>
+                  <TableCell>{user.direccion_completa}</TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                {/* Esto es un comentario correcto en JSX */}
+                <TableCell colSpan={3}>No se encontraron usuarios</TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
   );
-}
+};
+
+export default Categorias;

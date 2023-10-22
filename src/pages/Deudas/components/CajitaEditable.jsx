@@ -25,7 +25,7 @@ import {
   updateUser,
   createUser,
   getUsers,
-} from "../../../servicios/userService";
+} from "../../../Services/userService";
 
 const roles = ["Market", "Finance", "Development"];
 const randomRole = () => {
