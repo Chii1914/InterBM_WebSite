@@ -1,7 +1,8 @@
 import React from "react";
 import PageContainer from "../../components/container/PageContainer";
 import { Box, Button, Typography, Paper, Grid } from "@mui/material";
-import SpacingGrid from "./components/Cajita";
+/* import CajitaEditable from "./components/Cajita"; */
+import Cajita from "./components/Cajita.jsx";
 
 function Deudas() {
   return (
@@ -12,8 +13,7 @@ function Deudas() {
           justifyContent: "center",
           alignItems: "center",
           width: "100%",
-          backgroundImage:
-            "url(https://uploadnow.io/s/b9a5ae78-b226-40bc-b62e-689760b70b51)",
+          backgroundImage: "url()",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPositionY: "18%",
@@ -21,7 +21,7 @@ function Deudas() {
         }}
         minHeight={600}
       >
-        <SpacingGrid />
+        <Cajita />
       </Box>
     </PageContainer>
   );
