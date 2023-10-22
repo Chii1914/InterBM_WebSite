@@ -67,11 +67,8 @@ const Categorias = () => {
           <TableHead>
             <TableRow>
               <TableCell>Nombre</TableCell>
-              <TableCell>Run</TableCell>
+              <TableCell>Categoría</TableCell>
               <TableCell>Dirección</TableCell>
-              <TableCell>Telefono</TableCell>
-              <TableCell>categoria</TableCell>
-              <TableCell>telefono de emergencia</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -79,11 +76,8 @@ const Categorias = () => {
               users.map((user, index) => (
                 <TableRow key={index}>
                   <TableCell>{user.nombre_completo}</TableCell>
-                  <TableCell>{user.run}</TableCell>
-                  <TableCell>{user.direccion_completa}</TableCell>
-                  <TableCell>{user.telefono}</TableCell>
                   <TableCell>{user.categoria}</TableCell>
-                  <TableCell>{user.telefono_emergencia}</TableCell>
+                  <TableCell>{user.direccion_completa}</TableCell>
                 </TableRow>
               ))
             ) : (

@@ -19,6 +19,7 @@ import { Routes, Route, useNavigate, Link } from "react-router-dom";
 function Header() {
   const pages = [
     { name: "Categorías", path: "/categorias" },
+    { name: "GestionCategorías", path: "/gestioncategorias" },
     { name: "Recintos", path: "/recintos" },
     { name: "Deudas", path: "/deudas" },
     { name: "Eventos", path: "/eventos" },

@@ -3,6 +3,7 @@ import PageContainer from "../../components/container/PageContainer";
 import { Box, Button, Typography, Paper, Grid } from "@mui/material";
 /* import CajitaEditable from "./components/Cajita"; */
 import Cajita from "./components/Cajita.jsx";
+import CajitaEditable from "./components/CajitaEditable.jsx";
 
 function Deudas() {
   return (
@@ -21,7 +22,7 @@ function Deudas() {
         }}
         minHeight={600}
       >
-        <Cajita />
+        <CajitaEditable />
       </Box>
     </PageContainer>
   );

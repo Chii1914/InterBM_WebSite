@@ -90,9 +90,9 @@ function ListarSuperHeroes() {
           </Grid>
           <Box display="flex" flexDirection="row" justifyContent="end">
             <TablePagination
-            sx={{
-              color: "white",
-            }}
+              sx={{
+                color: "white",
+              }}
               rowsPerPageOptions={[6, 8, 12, 18]}
               count={listadoSuperHeroes.length}
               rowsPerPage={rowsPerPage}

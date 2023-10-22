@@ -18,6 +18,9 @@ const Eventos = Loadable(lazy(() => import("../pages/Eventos/Eventos")));
 const Categorias = Loadable(
   lazy(() => import("../pages/Categorias/Categorias"))
 );
+const GestionCategorias = Loadable(
+  lazy(() => import("../pages/GestionCategorias/GestionCategorias"))
+);
 const Recintos = Loadable(lazy(() => import("../pages/Recintos/Recintos")));
 const Register = Loadable(lazy(() => import("../pages/Register/Register")));
 const Login = Loadable(lazy(() => import("../pages/Login/Login")));
@@ -34,7 +37,12 @@ const Router = [
       { path: "404", element: <Error /> },
       { path: "deudas", exact: true, element: <Deudas /> },
       { path: "eventos", exact: true, element: <Eventos /> },
-      { path: "categorias", exact: true, element: <Categorias /> },
+      {
+        path: "GestionCategorias",
+        exact: true,
+        element: <GestionCategorias />,
+      },
+      { path: "Categorias", exact: true, element: <Categorias /> },
       { path: "recintos", exact: true, element: <Recintos /> },
       { path: "login", exact: true, element: <Login /> },
       { path: "registro", exact: true, element: <Register /> },
