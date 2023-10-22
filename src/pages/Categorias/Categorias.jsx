@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { DataGrid } from '@mui/x-data-grid';
 
-// Componente DataTable para mostrar los datos de una categoría específica
-const DataTable = ({ category }) => {
+const DataTable = ({ category, selectedCategory, onCategorySelect, showAll }) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
     axios.get(`http://localhost:4000/usercat/${category}`)
       .then((response) => {
-        setData(response.data.usuarios); 
+        setData(response.data.usuarios);
       })
       .catch((error) => {
         console.error("Error fetching data", error);
@@ -17,29 +16,48 @@ const DataTable = ({ category }) => {
   }, [category]);
 
   const columns = [
-    { field: 'run', headerName: 'RUN', width: 130 },
-    { field: 'nombre_completo', headerName: 'Nombre Completo', width: 200 },
-    { field: 'categoria', headerName: 'Categoría', width: 150 },
-    // Agrega más campos según sea necesario
+    { field: 'run', headerName: 'RUN', width: 150 }, 
+    { field: 'nombre_completo', headerName: 'Nombre Completo', width: 250 }, 
+    { field: 'categoria', headerName: 'Categoría', width: 150 }, 
   ];
 
+  const cellStyle = {
+    color: 'black',
+    padding: '0 10px',
+    backgroundColor: 'white'
+  };
+
   return (
-    <div style={{ height: 400, width: '100%', marginBottom: '20px' }}>
-      <h2>{category}</h2>
+    <div style={{
+      height: 400,
+      width: '80%',
+      margin: '20px auto',
+      display: selectedCategory === category || showAll ? 'block' : 'none'
+    }}>
       <DataGrid
         rows={data}
-        columns={columns}
+        columns={columns.map((column) => ({
+          ...column,
+          cellClassName: 'cell',
+        }))}
         pageSize={5}
         rowsPerPageOptions={[5]}
         checkboxSelection
-        getRowId={(row) => row.run} // Aquí se asigna el ID de cada fila
+        getRowId={(row) => row.run}
+        components={{
+          Cell: ({ value, field }) => {
+            return <div className="cell" style={cellStyle}>{value}</div>;
+          },
+        }}
       />
     </div>
   );
 };
 
-// Componente principal que renderiza un DataTable para cada categoría
 const App = () => {
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [showAll, setShowAll] = useState(true);
+
   const categories = [
     "alevin",
     "mini_femenino",
@@ -56,84 +74,25 @@ const App = () => {
 
   return (
     <div className="App">
+      <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '20px' }}>
+        <button style={{ margin: '10px' }} onClick={() => { setSelectedCategory(null); setShowAll(true); }}>Mostrar Todos</button>
+        {categories.map((category) => (
+          <button key={category} style={{ margin: '10px' }} onClick={() => { setSelectedCategory(category); setShowAll(false); }}>{category}</button>
+        ))}
+      </div>
+
       {categories.map((category) => (
-        <DataTable key={category} category={category} />
+        <div key={category}>
+          <DataTable
+            category={category}
+            selectedCategory={selectedCategory}
+            onCategorySelect={setSelectedCategory}
+            showAll={showAll}
+          />
+        </div>
       ))}
     </div>
   );
 };
 
 export default App;
-
-
-
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-// import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-
-// const Categorias = () => {
-//   const [users, setUsers] = useState([]);
-//   const [selectedCategory, setSelectedCategory] = useState('Todos');
-  
-//   const categories = ['Todos', 'juvenil', 'Categoria2', 'Categoria3', 'Categoria4', 'Categoria5', 'Categoria6', 'Categoria7'];
-
-//   useEffect(() => {
-//     let url =  `/usercat/juvenil`;  // URL por defecto para obtener todos los usuarios
-
-//     if (selectedCategory !== 'Todos') {
-//       // URL específica basada en la categoría seleccionada
-     
-//       url = `/usercat/juvenil`;
-//     }
-    
-//     axios.get(url)
-//       .then(response => {
-//         setUsers(response.data);
-//       })
-//       .catch(error => console.error('Hubo un error al cargar los datos de los usuarios:', error));
-//   }, [selectedCategory]);
-//   console.log(users)
-//   return (
-//     <div>
-//       <label>
-//         Categoría:
-//         <select value={selectedCategory} onChange={e => setSelectedCategory(e.target.value)}>
-//           {categories.map((category, index) => (
-            
-//             <option key={index} value={category}>{category}</option>
-//           ))}
-//         </select>
-//       </label>
-
-//       <TableContainer component={Paper}>
-//         <Table>
-//           <TableHead>
-//             <TableRow>
-//               <TableCell>Nombre</TableCell>
-//               <TableCell>Categoría</TableCell>
-//               <TableCell>Dirección</TableCell>
-//             </TableRow>
-//           </TableHead>
-//           <TableBody>
-//             {Array.isArray(users) ? users.map((user, index) => (  // Añadir una comprobación para asegurarse de que `users` es un array
-              
-            
-//             <TableRow key={index}>
-//                   <TableCell>{user.nombre}</TableCell>
-//                   <TableCell>{user.categoria}</TableCell>
-//                   <TableCell>{user.direccion}</TableCell>
-//                 </TableRow>
-//               )) : (
-//                 <TableRow>
-//                     {/* Esto es un comentario correcto en JSX */}
-//                     <TableCell colSpan={3}>No se encontraron usuarios</TableCell>
-//                 </TableRow>
-//               )}
-//             </TableBody>
-//         </Table>
-//       </TableContainer>
-//     </div>
-//   );
-// };
-
-// export default Categorias;
