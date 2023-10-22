@@ -1,12 +1,33 @@
-import { AppBar, Avatar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material";
 import React, { useState } from "react";
+import {
+  AppBar,
+  Avatar,
+  Box,
+  Button,
+  Container,
+  IconButton,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AdbIcon from "@mui/icons-material/Adb";
-import { Link, Routes } from 'react-router-dom';
+import { Routes, Route, useNavigate, Link } from "react-router-dom";
 
 function Header() {
-  const pages = ["categorias", "Recintos", "Deudas", "Eventos", "Inicio"];
+  const pages = [
+    { name: "Categorías", path: "/categorias" },
+    { name: "Recintos", path: "/recintos" },
+    { name: "Deudas", path: "/deudas" },
+    { name: "Eventos", path: "/eventos" },
+    { name: "Inicio", path: "/" },
+  ];
+
   const settings = ["Profile", "Account", "Dashboard", "Logout"];
+
+  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -17,8 +38,9 @@ function Header() {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (path) => {
     setAnchorElNav(null);
+    navigate(path); //
   };
 
   const handleCloseUserMenu = () => {
@@ -33,7 +55,8 @@ function Header() {
           <Typography
             variant="h6"
             noWrap
-            component={Link} to="/" 
+            component={Link}
+            to="/"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -44,7 +67,7 @@ function Header() {
               textDecoration: "none",
             }}
           >
-            AQUÍ VA EL LOGO PULENTO
+            InterBM
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -77,8 +100,8 @@ function Header() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center" component={Link} to={`/${page.toLowerCase()}`}>{page}</Typography>
+                <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -87,7 +110,8 @@ function Header() {
           <Typography
             variant="h5"
             noWrap
-            component={Link} to="/" 
+            component={Link}
+            to="/"
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -98,18 +122,17 @@ function Header() {
               color: "inherit",
               textDecoration: "none",
             }}
-          >
-            LOGO
-          </Typography>
+          ></Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+                key={page.name}
+                onClick={() => handleCloseNavMenu(page.path)}
                 sx={{ my: 2, color: "white", display: "block" }}
-                component={Link} to={`/${page.toLowerCase()}`} 
+                component={Link}
+                to={page.path}
               >
-                {page}
+                {page.name}
               </Button>
             ))}
           </Box>
@@ -119,7 +142,7 @@ function Header() {
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 1 }}>
                 <Avatar
                   alt="Remy Sharp"
-                  src="https://www.universidadesonline.cl/logos/original/logo-universidad-de-valparaiso.png"
+                  src="https://pbs.twimg.com/profile_images/681180785504862208/RNR8RGGM_400x400.jpg"
                 />
               </IconButton>
             </Tooltip>

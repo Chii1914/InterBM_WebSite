@@ -1,6 +1,8 @@
 import React from "react";
 import PageContainer from "../../components/container/PageContainer";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography, Paper, Grid } from "@mui/material";
+/* import CajitaEditable from "./components/Cajita"; */
+import Cajita from "./components/Cajita.jsx";
 
 function Deudas() {
   return (
@@ -11,81 +13,15 @@ function Deudas() {
           justifyContent: "center",
           alignItems: "center",
           width: "100%",
-          backgroundImage:
-            "url(https://images6.alphacoders.com/705/705204.jpg)",
+          backgroundImage: "url()",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPositionY: "18%",
+          backgroundColor: "white",
         }}
         minHeight={600}
       >
-        <Box
-          display="flex"
-          flexDirection="column"
-          gap={2}
-          justifyContent={"center"}
-          alignItems="center"
-        >
-          <Typography
-            variant="h1"
-            component="h1"
-            sx={{
-              color: "white",
-              textShadow: "2px 2px 4px #000000",
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-            }}
-          >
-            DEUDAS PLATAPLATAPLATA
-          </Typography>
-          <Typography
-            variant="h4"
-            component="h2"
-            sx={{
-              color: "white",
-              textShadow: "2px 2px 4px #000000",
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-            }}
-          >
-            Busca tu PLATA
-          </Typography>
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            sx={{
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-            }}
-          >
-            Comenzar!
-          </Button>
-        </Box>
-      </Box>
-      <Box
-        padding={10}
-        display="flex"
-        flexDirection="column"
-        gap={5}
-        alignItems="center"
-      >
-        <Typography
-          variant="h4"
-          component="h2"
-          sx={{
-            fontFamily: "monospace",
-            fontWeight: 700,
-            letterSpacing: ".3rem",
-            color: "white",
-            textShadow: "2px 2px 4px #000000",
-          }}
-        >
-          Listado de super heroes
-        </Typography>
+        <Cajita />
       </Box>
     </PageContainer>
   );
