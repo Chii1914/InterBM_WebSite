@@ -10,21 +10,38 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: "center",
   color: theme.palette.text.secondary,
+  height: "150px",
 }));
 
-export default function entrenadores() {
-  <Grid container spacing={2}>
-    <Grid item xs={8}>
-      <Item>xs=8</Item>
+function entrenadores() {
+  return (
+    <Grid container spacing={1} columns={0}>
+      <Grid item xs={12}>
+        <Item>
+          <img
+            src=""
+            alt="Descripción"
+            style={{ maxWidth: "100%", height: "auto" }}
+          />
+          <Box mt={2}>Texto 1</Box>
+        </Item>
+      </Grid>
+      <Grid item xs={12}>
+        <Item></Item>
+      </Grid>
+      <Grid item xs={12}>
+        <Item></Item>
+      </Grid>
+      <Grid item xs={12}>
+        <Item></Item>
+      </Grid>
+      <Grid item xs={12}>
+        <Item></Item>
+      </Grid>
+      <Grid item xs={12}>
+        <Item></Item>
+      </Grid>
     </Grid>
-    <Grid item xs={4}>
-      <Item>xs=4</Item>
-    </Grid>
-    <Grid item xs={4}>
-      <Item>xs=4</Item>
-    </Grid>
-    <Grid item xs={8}>
-      <Item>xs=8</Item>
-    </Grid>
-  </Grid>;
+  );
 }
+export default entrenadores;

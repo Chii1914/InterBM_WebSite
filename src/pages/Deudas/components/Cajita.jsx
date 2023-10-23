@@ -11,57 +11,25 @@ import {
 } from "@mui/material";
 
 const Categorias = () => {
-  const [users, setUsers] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("Todos");
-
-  const categories = [
-    "Todos",
-    "juvenil",
-    "Categoria2",
-    "Categoria3",
-    "Categoria4",
-    "Categoria5",
-    "Categoria6",
-    "Categoria7",
-  ];
-
-  const handleCategoryChange = (event) => {
-    setSelectedCategory(event.target.value);
-  };
+  const [vouchers, setVouchers] = useState([]);
 
   useEffect(() => {
-    let url = "/usercat/" + selectedCategory;
-    if (selectedCategory === "Todos") url = "/user/";
-    console.log(url); // URL por defecto para obtener todos los usuarios
+    const url = "/uservoucher/";
     axios
       .get(url)
       .then((response) => {
-        setUsers(response.data.usuarios);
+        setVouchers(response.data.usuarios);
       })
       .catch((error) =>
         console.error(
-          "Hubo un error al cargar los datos de los usuarios:",
+          "Hubo un error al cargar los datos de los vouchers:",
           error
         )
       );
-  }, [selectedCategory]);
-  console.log(users.usuarios);
+  });
 
   return (
     <div>
-      <label>
-        Categoría:
-        <select
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-        >
-          {categories.map((category, index) => (
-            <option key={index} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
-      </label>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -72,24 +40,26 @@ const Categorias = () => {
               <TableCell>Telefono</TableCell>
               <TableCell>categoria</TableCell>
               <TableCell>telefono de emergencia</TableCell>
+              <TableCell>monto deuda</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {Array.isArray(users) ? (
-              users.map((user, index) => (
+            {Array.isArray(vouchers) && vouchers.length > 0 ? (
+              vouchers.map((voucher, index) => (
                 <TableRow key={index}>
-                  <TableCell>{user.nombre_completo}</TableCell>
-                  <TableCell>{user.run}</TableCell>
-                  <TableCell>{user.direccion_completa}</TableCell>
-                  <TableCell>{user.telefono}</TableCell>
-                  <TableCell>{user.categoria}</TableCell>
-                  <TableCell>{user.telefono_emergencia}</TableCell>
+                  <TableCell>{voucher.nombre_completo}</TableCell>
+                  <TableCell>{voucher.run}</TableCell>
+                  <TableCell>{voucher.direccion_completa}</TableCell>
+                  <TableCell>{voucher.telefono}</TableCell>
+                  <TableCell>{voucher.categoria}</TableCell>
+                  <TableCell>{voucher.telefono_emergencia}</TableCell>
+                  <TableCell>{voucher.monto}</TableCell>
                 </TableRow>
               ))
             ) : (
               <TableRow>
                 {/* Esto es un comentario correcto en JSX */}
-                <TableCell colSpan={3}>No se encontraron usuarios</TableCell>
+                <TableCell colSpan={3}>No se encontraron Vouchers</TableCell>
               </TableRow>
             )}
           </TableBody>

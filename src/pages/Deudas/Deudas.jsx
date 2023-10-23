@@ -22,7 +22,7 @@ function Deudas() {
         }}
         minHeight={600}
       >
-        <CajitaEditable />
+        <Cajita />
       </Box>
     </PageContainer>
   );

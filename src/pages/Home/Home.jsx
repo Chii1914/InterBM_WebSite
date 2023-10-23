@@ -4,7 +4,7 @@ import { Box, Button, Typography } from "@mui/material";
 
 function Home() {
   return (
-    <PageContainer title="Pagina inicio" description="aaaaaaaaaaaaaaaaa">
+    <PageContainer title="InterBalonmano" description="aaaaaaaaaaaaaaaaa">
       <Box
         sx={{
           display: "flex",
@@ -29,7 +29,7 @@ function Home() {
             variant="h1"
             component="h1"
             sx={{
-              color: "black",
+              color: "white",
               textShadow: "4px 4px 8px #FFFFFF",
               fontFamily: "monospace",
               fontWeight: 700,
@@ -40,7 +40,7 @@ function Home() {
             variant="h4"
             component="h2"
             sx={{
-              color: "black",
+              color: "white",
               textShadow: "2px 2px 4px #FFFFFF",
               fontFamily: "monospace",
               fontWeight: 700,

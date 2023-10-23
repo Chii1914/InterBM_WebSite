@@ -1,7 +1,7 @@
 import React from "react";
 import PageContainer from "../../components/container/PageContainer";
 import { Box, Button, Typography } from "@mui/material";
-import entrenadores from "./Components/Grillas.jsx";
+import Entrenadores from "./Components/Grillas";
 
 function Categorias() {
   return (
@@ -10,15 +10,16 @@ function Categorias() {
         variant="h1"
         component="h1"
         sx={{
-          color: "black",
+          color: "Black",
           textShadow: "4px 4px 8px #FFFFFF",
           fontFamily: "monospace",
           fontWeight: 700,
           letterSpacing: ".3rem",
         }}
       >
-        Categoriasaaaaaaaaaaaaaa
+        Categorias
       </Typography>
+      <Entrenadores />
     </PageContainer>
   );
 }
