@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from "react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,37 +10,53 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
+import Background_local from './Images/Evento.jpg';
+import axios from "axios";
 
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 export default function SignIn() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+  
+  
+  const [inputs, setInputs] = useState({
+    RUN: "",
+    password: "",
+  })
+  const handleChange = e =>{
+    setInputs(prev=>({...prev, [e.target.name]: e.target.value}))
+} 
+  const handleSubmit = async e =>{
+    e.preventDefault()
+    try{
+        console.log(inputs)
+        const res = await axios.get("/userver/", inputs)
+        if(res.status === 200){
+         
+        }
+    }catch(err){
+    }
+  }
 
+
+
+
+  
+  const background = Background_local;
   return (
     <ThemeProvider theme={defaultTheme}>
         <CssBaseline />
        <Box
             sx={{
-                marginTop: 8,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                minHeight: '100vh',
+              backgroundImage: `url(${background})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              minHeight: '100vh',
+              display: 'flex',
+              justifyContent: 'center', 
+              alignItems: 'center' 
             }}
         >     
         <Box
@@ -54,36 +70,38 @@ export default function SignIn() {
             boxShadow: '0px 0px 10px rgba(0,0,0,0.1)',          
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }} src='https://pbs.twimg.com/profile_images/681180785504862208/RNR8RGGM_400x400.jpg'>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Inicio de sesión
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="RUN"
+              label="Ingresa tu Rut sin puntos ni guión"
+              name="RUN"
+              autoComplete="RUN"
               autoFocus
+              onChange={handleChange}
             />
             <TextField
               margin="normal"
               required
               fullWidth
               name="password"
-              label="Password"
+              label="Contraseña"
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={handleChange}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+              label="Recuérdame"
             />
             <Button
               type="submit"
@@ -91,18 +109,16 @@ export default function SignIn() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              Ingresar
             </Button>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
-                  Forgot password?
+                  Olvidaste tu contraseña?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
+                
               </Grid>
             </Grid>
           </Box>
