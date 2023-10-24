@@ -12,12 +12,16 @@ function Home() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          width: "70%",
-          backgroundImage: `url(${imag1})`,
-            
+
+          width: "100%",
+          backgroundImage: 'url(https://cdn.discordapp.com/attachments/1145537724644864134/1166227278720671775/image.png?ex=6549b8ca&is=653743ca&hm=fe863285f7e6c37ea2b2c8d499f3f9b9d7b92f615ef8f34692dd7c81586a0dec&)',
+
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
-          backgroundPositionY: "70%",
+          backgroundPosition: "center center",
+          minHeight: "983px",
+          width: "654",
+          padding: "100px",
         }}
         minHeight={700}
       >
@@ -57,7 +61,7 @@ function Home() {
         </Box>
       </Box>
       <Box
-        padding={10}
+        padding={0}
         display="flex"
         flexDirection="column"
         gap={5}
@@ -76,7 +80,7 @@ function Home() {
         >
           
         </Typography>
-        
+
       </Box>
     </PageContainer>
   );
