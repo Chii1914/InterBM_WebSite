@@ -2,6 +2,14 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { DataGrid } from '@mui/x-data-grid';
 
+// Función para convertir nombres de categoría
+const formatCategoryName = (name) => {
+  return name
+    .split('_')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
+
 const DataTable = ({ category, selectedCategory, onCategorySelect, showAll }) => {
   const [data, setData] = useState([]);
 
@@ -23,6 +31,7 @@ const DataTable = ({ category, selectedCategory, onCategorySelect, showAll }) =>
 
   return (
     <div className={`data-table ${selectedCategory === category || showAll ? '' : 'hidden'}`}>
+      <h2>{formatCategoryName(category)}</h2> 
       <DataGrid
         rows={data}
         columns={columns.map((column) => ({
@@ -61,7 +70,7 @@ const App = () => {
       <div className="category-buttons">
         <button className="btn" onClick={() => { setSelectedCategory(null); setShowAll(true); }}>Mostrar Todos</button>
         {categories.map((category) => (
-          <button key={category} className="btn" onClick={() => { setSelectedCategory(category); setShowAll(false); }}>{category}</button>
+          <button key={category} className="btn" onClick={() => { setSelectedCategory(category); setShowAll(false); }}>{formatCategoryName(category)}</button>
         ))}
       </div>
       {categories.map((category) => (
@@ -101,7 +110,7 @@ const styles = `
   transition: background-color 0.3s;
 }
 
-.btn:hover { /* Cambio a rojo cuando el mouse pasa por encima */
+.btn:hover {
   background-color: red;
 }
 
