@@ -29,11 +29,11 @@ export default function SignIn() {
     e.preventDefault();
     try {
       const res = await axios.post("/userver/", inputs);
-      
+      console.log(res)
       if (res.data.status === true) {
         alert("Bienvenido ");
         
-      }else if(res.data.message === "Usuario no encontrado"){
+      }else if(res.data.message === "Usuario no existente"){
         alert("Usuario no encontrado")
       }else if(res.data.message === "Contraseña incorrecta"){
         alert("Contraseña incorrecta")

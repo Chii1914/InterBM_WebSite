@@ -17,7 +17,6 @@ function MainLayout() {
         <>
         <Header />
           <Outlet />
-          <Footer />
         </>
       ) : (
         <Backdrop
