@@ -11,10 +11,14 @@ function Home() {
           justifyContent: "center",
           alignItems: "center",
           width: "100%",
-          backgroundImage: `url(https://scontent-scl2-1.xx.fbcdn.net/v/t31.18172-8/12605418_919278914854705_8867189512935674290_o.jpg?_nc_cat=100&ccb=1-7&_nc_sid=2be8e3&_nc_ohc=49aj0r7oiu0AX_G9ggn&_nc_ht=scontent-scl2-1.xx&oh=00_AfC-XU4KN8fCWOfDiYvk8I0r4DfbklYrnnxBRlMazhDiLQ&oe=654D0E3F)`,
+          backgroundImage:
+            "url(https://cdn.discordapp.com/attachments/1145537724644864134/1166227278720671775/image.png?ex=6549b8ca&is=653743ca&hm=fe863285f7e6c37ea2b2c8d499f3f9b9d7b92f615ef8f34692dd7c81586a0dec&)",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
-          backgroundPositionY: "70%",
+          backgroundPosition: "center center",
+          minHeight: "983px",
+          width: "654",
+          padding: "100px",
         }}
         minHeight={700}
       >
@@ -47,22 +51,10 @@ function Home() {
               letterSpacing: ".3rem",
             }}
           ></Typography>
-          {/* <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            sx={{
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-            }}
-          >
-            Comenzar!
-          </Button> */}
         </Box>
       </Box>
       <Box
-        padding={10}
+        padding={0}
         display="flex"
         flexDirection="column"
         gap={5}

@@ -18,12 +18,12 @@ import { Routes, Route, useNavigate, Link } from "react-router-dom";
 
 function Header() {
   const pages = [
+    { name: "Inicio", path: "/" },
     { name: "Categorías", path: "/categorias" },
     { name: "GestionCategorías", path: "/gestioncategorias" },
     { name: "Recintos", path: "/recintos" },
     { name: "Deudas", path: "/deudas" },
-    { name: "Eventos", path: "/eventos" },
-    { name: "Inicio", path: "/" },
+    { name: "Login", path: "/login" },
   ];
 
   const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -52,15 +52,46 @@ function Header() {
     <AppBar position="static" sx={{ backgroundColor: "black" }}>
       <Container maxWidth="xl" sx={{ backgroundColor: "black" }}>
         <Toolbar disableGutters sx={{ backgroundColor: "black" }}>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          <Box sx={{ flexGrow: 0, mr: 32 }}>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 1 }}>
+                <Avatar
+                  alt="Remy Sharp"
+                  src="https://pbs.twimg.com/profile_images/681180785504862208/RNR8RGGM_400x400.jpg"
+                />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: "45px" }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {settings.map((setting) => (
+                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
           <Typography
             variant="h6"
             noWrap
             component={Link}
             to="/"
             sx={{
-              mr: 2,
               display: { xs: "none", md: "flex" },
+              mr: 10,
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
@@ -129,46 +160,13 @@ function Header() {
               <Button
                 key={page.name}
                 onClick={() => handleCloseNavMenu(page.path)}
-                sx={{ my: 2, color: "white", display: "block" }}
+                sx={{ my: 2, mr: 10, color: "white", display: "block" }}
                 component={Link}
                 to={page.path}
               >
                 {page.name}
               </Button>
             ))}
-          </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 1 }}>
-                <Avatar
-                  alt="Remy Sharp"
-                  src="https://pbs.twimg.com/profile_images/681180785504862208/RNR8RGGM_400x400.jpg"
-                />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
           </Box>
         </Toolbar>
       </Container>
