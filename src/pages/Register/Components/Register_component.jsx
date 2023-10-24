@@ -24,17 +24,6 @@ const url = 'https://pbs.twimg.com/profile_images/681180785504862208/RNR8RGGM_40
 
 export default function SignInSide() {
     const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
-
-    const initialValues = {
-      RUN: "",
-      direccion_completa: "",
-      telefono_emergencia: "",
-      nombre_completo: "",
-      rol: "",
-      categoria: "",
-      telefono: "",
-      password: "",     
-  };
     const closeSuccessModal = () => {
       setIsSuccessModalOpen(false);
     };
