@@ -26,7 +26,7 @@ const Categorias = () => {
           error
         )
       );
-  });
+  }, []);
 
   return (
     <div>
