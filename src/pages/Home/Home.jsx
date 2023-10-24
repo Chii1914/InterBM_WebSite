@@ -1,7 +1,8 @@
 import React from "react";
 import PageContainer from "../../components/container/PageContainer";
 import { Box, Button, Typography } from "@mui/material";
-import ListarSuperHeroes from "./components/ListarSuperHeroes";
+
+import imag1 from "./imag1.png"
 
 function Home() {
   return (
@@ -11,8 +12,10 @@ function Home() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+
           width: "100%",
           backgroundImage: 'url(https://cdn.discordapp.com/attachments/1145537724644864134/1166227278720671775/image.png?ex=6549b8ca&is=653743ca&hm=fe863285f7e6c37ea2b2c8d499f3f9b9d7b92f615ef8f34692dd7c81586a0dec&)',
+
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center center",
@@ -77,7 +80,7 @@ function Home() {
         >
           
         </Typography>
-    
+
       </Box>
     </PageContainer>
   );

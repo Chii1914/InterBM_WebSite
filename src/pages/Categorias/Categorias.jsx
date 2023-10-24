@@ -1,96 +1,139 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-} from "@mui/material";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { DataGrid } from '@mui/x-data-grid';
 
-const Categorias = () => {
-  const [users, setUsers] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("Todos");
+// Función para convertir nombres de categoría
+const formatCategoryName = (name) => {
+  return name
+    .split('_')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
 
-  const categories = [
-    "Todos",
-    "juvenil",
-    "Categoria2",
-    "Categoria3",
-    "Categoria4",
-    "Categoria5",
-    "Categoria6",
-    "Categoria7",
-  ];
-
-  const handleCategoryChange = (event) => {
-    setSelectedCategory(event.target.value);
-  };
+const DataTable = ({ category, selectedCategory, onCategorySelect, showAll }) => {
+  const [data, setData] = useState([]);
 
   useEffect(() => {
-    let url = "/usercat/" + selectedCategory;
-    if (selectedCategory === "Todos") url = "/user/";
-    console.log(url); // URL por defecto para obtener todos los usuarios
-    axios
-      .get(url)
+    axios.get(`http://localhost:4000/usercat/${category}`)
       .then((response) => {
-        setUsers(response.data.usuarios);
+        setData(response.data.usuarios);
       })
-      .catch((error) =>
-        console.error(
-          "Hubo un error al cargar los datos de los usuarios:",
-          error
-        )
-      );
-  }, [selectedCategory]);
-  console.log(users.usuarios);
+      .catch((error) => {
+        console.error("Error fetching data", error);
+      });
+  }, [category]);
+
+  const columns = [
+    { field: 'run', headerName: 'RUN', width: 150 },
+    { field: 'nombre_completo', headerName: 'Nombre Completo', width: 250 },
+    { field: 'categoria', headerName: 'Categoría', width: 150 },
+  ];
 
   return (
-    <div>
-      <label>
-        Categoría:
-        <select
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-        >
-          {categories.map((category, index) => (
-            <option key={index} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
-      </label>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Nombre</TableCell>
-              <TableCell>Categoría</TableCell>
-              <TableCell>Dirección</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {Array.isArray(users) ? (
-              users.map((user, index) => (
-                <TableRow key={index}>
-                  <TableCell>{user.nombre_completo}</TableCell>
-                  <TableCell>{user.categoria}</TableCell>
-                  <TableCell>{user.direccion_completa}</TableCell>
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                {/* Esto es un comentario correcto en JSX */}
-                <TableCell colSpan={3}>No se encontraron usuarios</TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
+    <div className={`data-table ${selectedCategory === category || showAll ? '' : 'hidden'}`}>
+      <h2>{formatCategoryName(category)}</h2> 
+      <DataGrid
+        rows={data}
+        columns={columns.map((column) => ({
+          ...column,
+          cellClassName: 'cell',
+        }))}
+        pageSize={5}
+        rowsPerPageOptions={[5]}
+        checkboxSelection
+        getRowId={(row) => row.run}
+      />
     </div>
   );
 };
 
-export default Categorias;
+const App = () => {
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [showAll, setShowAll] = useState(true);
+
+  const categories = [
+    "alevin",
+    "mini_femenino",
+    "mini_masculino",
+    "infantil_femenino",
+    "infantil_masculino",
+    "cadete_femenino",
+    "cadete_masculino",
+    "juvenil_femenino",
+    "juvenil_masculino",
+    "adulto_femenino",
+    "adulto_masculino",
+  ];
+
+  return (
+    <div className="App">
+      <div className="category-buttons">
+        <button className="btn" onClick={() => { setSelectedCategory(null); setShowAll(true); }}>Mostrar Todos</button>
+        {categories.map((category) => (
+          <button key={category} className="btn" onClick={() => { setSelectedCategory(category); setShowAll(false); }}>{formatCategoryName(category)}</button>
+        ))}
+      </div>
+      {categories.map((category) => (
+        <DataTable
+          key={category}
+          category={category}
+          selectedCategory={selectedCategory}
+          onCategorySelect={setSelectedCategory}
+          showAll={showAll}
+        />
+      ))}
+    </div>
+  );
+};
+
+const styles = `
+.App {
+  font-family: Arial, sans-serif;
+}
+
+.category-buttons {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  background-color: #f0f0f0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn {
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #000;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn:hover {
+  background-color: red;
+}
+
+.data-table {
+  height: 400px;
+  width: 80%;
+  margin: 20px auto;
+}
+
+.hidden {
+  display: none;
+}
+
+.cell {
+  color: black;
+  padding: 0 10px;
+  
+}
+`;
+
+export default () => (
+  <>
+    <style>{styles}</style>
+    <App />
+  </>
+);
