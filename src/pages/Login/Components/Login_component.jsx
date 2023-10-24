@@ -28,16 +28,18 @@ export default function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(inputs);
       const res = await axios.post("/userver/", inputs);
-      if (res.status === 200) {
+
+      if (res.data.status === true) {
+        alert("Bienvenido ");
+      } else if (res.data.message === "Usuario no encontrado") {
+        alert("Usuario no encontrado");
+      } else if (res.data.message === "Contraseña incorrecta") {
+        alert("Contraseña incorrecta");
       }
     } catch (error) {
-      return res.status(500).json({
-        status: false,
-        error: "Problemas al visualizar usuario o no existe",
-        code: error,
-      });
+      console.error("Error al hacer la petición:", error.response.data);
+      // Aquí puedes establecer algún estado o mostrar un mensaje al usuario
     }
   };
 
