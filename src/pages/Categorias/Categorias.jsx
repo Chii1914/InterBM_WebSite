@@ -16,24 +16,13 @@ const DataTable = ({ category, selectedCategory, onCategorySelect, showAll }) =>
   }, [category]);
 
   const columns = [
-    { field: 'run', headerName: 'RUN', width: 150 }, 
-    { field: 'nombre_completo', headerName: 'Nombre Completo', width: 250 }, 
-    { field: 'categoria', headerName: 'Categoría', width: 150 }, 
+    { field: 'run', headerName: 'RUN', width: 150 },
+    { field: 'nombre_completo', headerName: 'Nombre Completo', width: 250 },
+    { field: 'categoria', headerName: 'Categoría', width: 150 },
   ];
 
-  const cellStyle = {
-    color: 'black',
-    padding: '0 10px',
-    backgroundColor: 'white'
-  };
-
   return (
-    <div style={{
-      height: 400,
-      width: '80%',
-      margin: '20px auto',
-      display: selectedCategory === category || showAll ? 'block' : 'none'
-    }}>
+    <div className={`data-table ${selectedCategory === category || showAll ? '' : 'hidden'}`}>
       <DataGrid
         rows={data}
         columns={columns.map((column) => ({
@@ -44,11 +33,6 @@ const DataTable = ({ category, selectedCategory, onCategorySelect, showAll }) =>
         rowsPerPageOptions={[5]}
         checkboxSelection
         getRowId={(row) => row.run}
-        components={{
-          Cell: ({ value, field }) => {
-            return <div className="cell" style={cellStyle}>{value}</div>;
-          },
-        }}
       />
     </div>
   );
@@ -74,25 +58,73 @@ const App = () => {
 
   return (
     <div className="App">
-      <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '20px' }}>
-        <button style={{ margin: '10px' }} onClick={() => { setSelectedCategory(null); setShowAll(true); }}>Mostrar Todos</button>
+      <div className="category-buttons">
+        <button className="btn" onClick={() => { setSelectedCategory(null); setShowAll(true); }}>Mostrar Todos</button>
         {categories.map((category) => (
-          <button key={category} style={{ margin: '10px' }} onClick={() => { setSelectedCategory(category); setShowAll(false); }}>{category}</button>
+          <button key={category} className="btn" onClick={() => { setSelectedCategory(category); setShowAll(false); }}>{category}</button>
         ))}
       </div>
-
       {categories.map((category) => (
-        <div key={category}>
-          <DataTable
-            category={category}
-            selectedCategory={selectedCategory}
-            onCategorySelect={setSelectedCategory}
-            showAll={showAll}
-          />
-        </div>
+        <DataTable
+          key={category}
+          category={category}
+          selectedCategory={selectedCategory}
+          onCategorySelect={setSelectedCategory}
+          showAll={showAll}
+        />
       ))}
     </div>
   );
 };
 
-export default App;
+const styles = `
+.App {
+  font-family: Arial, sans-serif;
+}
+
+.category-buttons {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  background-color: #f0f0f0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn {
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #000;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn:hover { /* Cambio a rojo cuando el mouse pasa por encima */
+  background-color: red;
+}
+
+.data-table {
+  height: 400px;
+  width: 80%;
+  margin: 20px auto;
+}
+
+.hidden {
+  display: none;
+}
+
+.cell {
+  color: black;
+  padding: 0 10px;
+  
+}
+`;
+
+export default () => (
+  <>
+    <style>{styles}</style>
+    <App />
+  </>
+);
