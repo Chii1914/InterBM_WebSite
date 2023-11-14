@@ -32,7 +32,7 @@ export default function SignIn() {
 
       if (res.data.status === true) {
         alert("Bienvenido ");
-      } else if (res.data.message === "Usuario no encontrado") {
+      } else if (res.data.message === "Usuario no existente") {
         alert("Usuario no encontrado");
       } else if (res.data.message === "Contraseña incorrecta") {
         alert("Contraseña incorrecta");
