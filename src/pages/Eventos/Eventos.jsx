@@ -1,61 +1,64 @@
-import React from "react";
+import { React, useState, useEffect } from "react";
 import PageContainer from "../../components/container/PageContainer";
 import { Box, Button, Typography } from "@mui/material";
 import MUIDataTable from "mui-datatables";
 import ReactDOM from "react-dom";
+import axios from "axios";
 
-const columns = ["Name", "Title", "Location", "Age", "Salary"];
-
-    const data = [
-      ["Gabby George", "Business Analyst", "Minneapolis", 30, "$100,000"],
-      ["Aiden Lloyd", "Business Consultant", "Dallas", 55, "$200,000"],
-      ["Jaden Collins", "Attorney", "Santa Ana", 27, "$500,000"],
-      ["Franky Rees", "Business Analyst", "St. Petersburg", 22, "$50,000"],
-      ["Aaren Rose", "Business Consultant", "Toledo", 28, "$75,000"],
-      ["Blake Duncan", "Business Management Analyst", "San Diego", 65, "$94,000"],
-      ["Frankie Parry", "Agency Legal Counsel", "Jacksonville", 71, "$210,000"],
-      ["Lane Wilson", "Commercial Specialist", "Omaha", 19, "$65,000"],
-      ["Robin Duncan", "Business Analyst", "Los Angeles", 20, "$77,000"],
-      ["Mel Brooks", "Business Consultant", "Oklahoma City", 37, "$135,000"],
-      ["Harper White", "Attorney", "Pittsburgh", 52, "$420,000"],
-      ["Kris Humphrey", "Agency Legal Counsel", "Laredo", 30, "$150,000"],
-      ["Frankie Long", "Industrial Analyst", "Austin", 31, "$170,000"],
-      ["Brynn Robbins", "Business Analyst", "Norfolk", 22, "$90,000"],
-      ["Justice Mann", "Business Consultant", "Chicago", 24, "$133,000"],
-      ["Addison Navarro", "Business Management Analyst", "New York", 50, "$295,000"],
-      ["Jesse Welch", "Agency Legal Counsel", "Seattle", 28, "$200,000"],
-      ["Eli Mejia", "Commercial Specialist", "Long Beach", 65, "$400,000"],
-      ["Gene Leblanc", "Industrial Analyst", "Hartford", 34, "$110,000"],
-      ["Danny Leon", "Computer Scientist", "Newark", 60, "$220,000"],
-      ["Lane Lee", "Corporate Counselor", "Cincinnati", 52, "$180,000"],
-      ["Jesse Hall", "Business Analyst", "Baltimore", 44, "$99,000"],
-      ["Danni Hudson", "Agency Legal Counsel", "Tampa", 37, "$90,000"],
-      ["Terry Macdonald", "Commercial Specialist", "Miami", 39, "$140,000"],
-      ["Justice Mccarthy", "Attorney", "Tucson", 26, "$330,000"],
-      ["Silver Carey", "Computer Scientist", "Memphis", 47, "$250,000"],
-      ["Franky Miles", "Industrial Analyst", "Buffalo", 49, "$190,000"],
-      ["Glen Nixon", "Corporate Counselor", "Arlington", 44, "$80,000"],
-      ["Gabby Strickland", "Business Process Consultant", "Scottsdale", 26, "$45,000"],
-      ["Mason Ray", "Computer Scientist", "San Francisco", 39, "$142,000"]
-    ];
-
+const columns = [
+  "Id",
+  "Descripción",
+  "Título",
+  "Localización",
+  "Organizador",
+  "Fecha_hora",
+];
 
 function Eventos() {
+  const [eventos, setData] = useState([]);
+
+  useEffect(() => {
+    const url = "/evento";
+    axios
+      .get(url)
+      .then((response) => {
+        setData(response.data.eventos);
+      })
+      .catch((error) =>
+        console.error(
+          "Hubo un error al cargar los datos de los eventos:",
+          error
+        )
+      );
+  }, []);
+  
+
   const options = {
-    filterType: 'dropdown',
-    responsive: 'stacked'
+    filterType: "dropdown",
+    responsive: "stacked",
   };
 
   return (
-    <PageContainer title="Pagina inicio" description="aaaaaaaaaaaaaaaaa">
-       <MUIDataTable 
-        title={"ACME Employee list"} 
-        data={data} 
-        columns={columns} 
-        options={options} 
+    <PageContainer title="Gestor de eventos" description="Gestión de eventos">
+      <MUIDataTable
+        title={"Eventos InterBM"}
+        data={eventos}
+        columns={columns}
+        options={options}
       />
     </PageContainer>
   );
 }
 
 export default Eventos;
+
+
+/*
+const result = [];
+  if (!(eventos.length === 0)) {
+    for (var i in eventos) {
+      result.push([i, eventos[i].descripcion, eventos[i].titulo, eventos[i].localizacion, eventos[i].organizador, eventos[i].fecha_hora]);
+    }
+    console.log(result);
+  }
+  */
