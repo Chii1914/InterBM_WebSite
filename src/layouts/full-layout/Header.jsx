@@ -19,10 +19,12 @@ import { Routes, Route, useNavigate, Link } from "react-router-dom";
 function Header() {
   const pages = [
     { name: "Inicio", path: "/" },
+    { name: "Eventos", path: "/eventos"},
     { name: "Categorías", path: "/categorias" },
     { name: "Recintos", path: "/recintos" },
     { name: "Deudas", path: "/deudas" },
     { name: "Login", path: "/login" },
+    
   ];
 
   const settings = ["Profile", "Account", "Dashboard", "Logout"];

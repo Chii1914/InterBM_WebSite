@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -13,11 +13,33 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Background_local from "./Images/Evento.jpg";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 export default function SignIn() {
+
+  /*google*/
+
+  function handleCallbackRespone(response) {
+    console.log("token: ", response.credential)
+    var UserObject = jwtDecode(response.credential)
+    console.log(UserObject)
+  }
+  useEffect(() => {
+    google.accounts.id.initialize({
+      client_id: "417041141509-495v48nc29snmejlojgaj49pq8ck3ukn.apps.googleusercontent.com",
+      callback: handleCallbackRespone
+    });
+    google.accounts.id.renderButton(
+      document.getElementById("signIn"),
+      {theme: "outline", size: "large"}
+    )
+
+  }, []);
+
+
   const [inputs, setInputs] = useState({
     RUN: "",
     password: "",
@@ -119,11 +141,23 @@ export default function SignIn() {
             >
               Ingresar
             </Button>
+            <Box id="signIn">
+            <Button
+              
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Ingresar con google
+             
+            </Button> 
+            </Box>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
                   Olvidaste tu contraseña?
                 </Link>
+                
               </Grid>
               <Grid item></Grid>
             </Grid>
