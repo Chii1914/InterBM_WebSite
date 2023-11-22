@@ -20,7 +20,7 @@ import { jwtDecode } from "jwt-decode";
 const defaultTheme = createTheme();
 export default function SignIn() {
 
-  /*google*/
+  /*global google*/
 
   function handleCallbackRespone(response) {
     console.log("token: ", response.credential)
