@@ -1,17 +1,63 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { DataGrid } from '@mui/x-data-grid';
+import ModalComponent from './ModalComponent';
 
 // Función para convertir nombres de categoría
 const formatCategoryName = (name) => {
-  return name
-    .split('_')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+  return name.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 };
 
 const DataTable = ({ category, selectedCategory, onCategorySelect, showAll }) => {
   const [data, setData] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [editData, setEditData] = useState(null);
+
+  // Función para abrir el modal con los datos del usuario a editar
+  const handleEdit = (user) => {
+    setEditData(user);
+    setOpenModal(true);
+  };
+
+  // Función para abrir el modal para añadir un nuevo usuario
+  const handleAdd = () => {
+    setEditData(null);
+    setOpenModal(true);
+  };
+
+  // Función para cerrar el modal
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  // Función para guardar los datos del usuario (añadir/editar)
+  const saveUser = (userData) => {
+    // Verificar si estamos editando un usuario existente o añadiendo uno nuevo
+    const isEditingUser = data.some(user => user.run === userData.run);
+  
+    const endpoint = isEditingUser ? `http://localhost:4000/user/${userData.run}` : 'http://localhost:4000/user/';
+    const method = isEditingUser ? 'patch' : 'post';
+  
+    axios[method](endpoint, userData)
+      .then(response => {
+        // Recargar los usuarios o actualizar el estado
+        handleCloseModal();
+      })
+      .catch(error => {
+        console.error("Error al guardar el usuario", error);
+      });
+  };
+  
+  const deleteUser = (userId) => {
+    axios.delete(`http://localhost:4000/user/${userId}`)
+      .then(response => {
+        // Actualizar el estado para reflejar que el usuario ha sido eliminado
+        setData(data.filter(user => user.run !== userId));
+      })
+      .catch(error => {
+        console.error("Error al eliminar el usuario", error);
+      });
+  };
 
   useEffect(() => {
     axios.get(`http://localhost:4000/usercat/${category}`)
@@ -27,11 +73,22 @@ const DataTable = ({ category, selectedCategory, onCategorySelect, showAll }) =>
     { field: 'run', headerName: 'RUN', width: 150 },
     { field: 'nombre_completo', headerName: 'Nombre Completo', width: 250 },
     { field: 'categoria', headerName: 'Categoría', width: 150 },
+    {
+      field: 'acciones',
+      headerName: 'Acciones',
+      width: 150,
+      renderCell: (params) => (
+        <>
+          <button onClick={() => handleEdit(params.row)}>Editar</button>
+          <button onClick={() => deleteUser(params.row.run)}>Eliminar</button>
+        </>
+      ),
+    },
   ];
 
   return (
     <div className={`data-table ${selectedCategory === category || showAll ? '' : 'hidden'}`}>
-      <h2>{formatCategoryName(category)}</h2> 
+      <h2>{formatCategoryName(category)}</h2>
       <DataGrid
         rows={data}
         columns={columns.map((column) => ({
@@ -42,7 +99,15 @@ const DataTable = ({ category, selectedCategory, onCategorySelect, showAll }) =>
         rowsPerPageOptions={[5]}
         checkboxSelection
         getRowId={(row) => row.run}
+        components={{
+          Toolbar: () => (
+            <div style={{ textAlign: 'right', padding: '10px' }}>
+              <button onClick={handleAdd} style={{ padding: '5px 10px' }}>Añadir Usuario</button>
+            </div>
+          ),
+        }}
       />
+      {openModal && <ModalComponent userData={editData} onSave={saveUser} onClose={handleCloseModal} />}
     </div>
   );
 };
@@ -127,13 +192,14 @@ const styles = `
 .cell {
   color: black;
   padding: 0 10px;
-  
 }
 `;
 
-export default () => (
+const Categorias = () => (
   <>
     <style>{styles}</style>
     <App />
   </>
 );
+
+export default Categorias;
