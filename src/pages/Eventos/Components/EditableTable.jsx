@@ -16,31 +16,20 @@ import {
 } from "@mui/x-data-grid";
 import { randomId, randomArrayItem } from "@mui/x-data-grid-generator";
 
-const url = "/evento/mongo/";
+const roles = ["Market", "Finance", "Development"];
+const randomRole = () => {
+  return randomArrayItem(roles);
+};
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
 
   const handleClick = () => {
-    const _id = randomId(); // Ensure this ID is unique
-    // Create a new row with the structure matching your columns
-    const newRow = {
-      _id: _id,
-      titulo: "",
-      descripcion: "",
-      organizador: "",
-      localizacion: "",
-      fecha_hora: new Date().toISOString(), // Set a default date or leave it empty
-      isNew: true
-    };
-  
-    // Add the new row to the existing rows
-    setRows((oldRows) => [...oldRows, newRow]);
-  
-    // Set the new row to be in edit mode
+    const id = randomId();
+    setRows((oldRows) => [...oldRows, { id, name: "", age: "", isNew: true }]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
-      [_id]: { mode: GridRowModes.Edit, fieldToFocus: "titulo" }, // Adjust fieldToFocus as needed
+      [id]: { mode: GridRowModes.Edit, fieldToFocus: "name" },
     }));
   };
 
@@ -57,6 +46,7 @@ export default function FullFeaturedCrudGrid() {
   const [rows, setRows] = React.useState([]);
 
   React.useEffect(() => {
+    const url = "/evento/mongo";
     axios
       .get(url)
       .then((response) => {
@@ -107,35 +97,19 @@ export default function FullFeaturedCrudGrid() {
   };
 
   const processRowUpdate = async (newRow) => {
-    
-    if (newRow.isNew) {
-      console.log("ta nueaaa")
-
-      if (url === "/evento/mongo/") {
-        try{
-        const { _id, ...newObjectWithoutId } = newRow;
-        console.log(newObjectWithoutId)
-        const response = await axios.post(url, newObjectWithoutId);
-        console.log(response.data.evento)
-      } catch (error) {
-        console.log(error)
-      }
-
-    }
-  }
-
     try {
-      //Manda la wea al backend y espera la respuesta
-      const response = await axios.patch(url + newRow._id, newRow);
-      const updatedRow = {
-        ...response.data.evento,
-        _id: response.data.evento._id,
-      };
+      // Send the updated row data to your backend
+      const response = await axios.patch(`/api/row/${newRow.id}`, newRow);
+      // Handle the response, assuming the backend returns the updated row data
+      const updatedRow = response.data;
 
-      //Seteo de row en el front
+      // Update the local state with the updated row data from the backend
       setRows((prevRows) =>
-        prevRows.map((row) => (row._id === newRow._id ? updatedRow : row))
+        prevRows.map((row) => (row.id === newRow.id ? updatedRow : row))
       );
+
+      // Log or handle the updated row here
+      console.log("Updated Row from Backend:", updatedRow);
       return updatedRow;
     } catch (error) {
       // Handle any errors that occur during the update
@@ -167,7 +141,7 @@ export default function FullFeaturedCrudGrid() {
       editable: true,
     },
     {
-      field: "localizacion",
+      field: "direccion",
       headerName: "Dirección",
       width: 180,
       align: "left",
@@ -175,7 +149,15 @@ export default function FullFeaturedCrudGrid() {
       editable: true,
     },
     {
-      field: "fecha_hora",
+      field: "nombre",
+      headerName: "nombre",
+      width: 180,
+      align: "left",
+      headerAlign: "left",
+      editable: true,
+    },
+    {
+      field: "timestamp",
       headerName: "Fecha",
       type: "dateTime",
       width: 180,
@@ -185,21 +167,12 @@ export default function FullFeaturedCrudGrid() {
         return new Date(params.value);
       },
       valueFormatter: (params) => {
-        // Format the date for SQL Server datetime compatibility
-        const date = params.value;
-        const formattedDate =
-          date.getFullYear() +
-          "-" +
-          String(date.getMonth() + 1).padStart(2, "0") +
-          "-" +
-          String(date.getDate()).padStart(2, "0");
-        const formattedTime =
-          String(date.getHours()).padStart(2, "0") +
-          ":" +
-          String(date.getMinutes()).padStart(2, "0") +
-          ":" +
-          String(date.getSeconds()).padStart(2, "0");
-        return formattedDate + " " + formattedTime;
+        // Format the date for display
+        return (
+          params.value.toLocaleDateString() +
+          " " +
+          params.value.toLocaleTimeString()
+        );
       },
     },
 
