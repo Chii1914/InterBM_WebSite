@@ -31,12 +31,12 @@ function EditToolbar(props) {
       organizador: "",
       localizacion: "",
       fecha_hora: new Date().toISOString(), // Set a default date or leave it empty
-      isNew: true
+      isNew: true,
     };
-  
+
     // Add the new row to the existing rows
     setRows((oldRows) => [...oldRows, newRow]);
-  
+
     // Set the new row to be in edit mode
     setRowModesModel((oldModel) => ({
       ...oldModel,
@@ -90,9 +90,16 @@ export default function FullFeaturedCrudGrid() {
     setRowModesModel({ ...rowModesModel, [_id]: { mode: GridRowModes.View } });
   };
 
-  const handleDeleteClick = (_id) => () => {
-    setRows(rows.filter((row) => row.id !== _id));
+  const handleDeleteClick = (_id) => async () => {
+    try {
+      await axios.delete(url + _id);
+      // Update the rows state to reflect the deletion
+      setRows((currentRows) => currentRows.filter((row) => row._id !== _id));
+    } catch (error) {
+      console.error("Error al eliminar usuario", error);
+    }
   };
+  
 
   const handleCancelClick = (_id) => () => {
     setRowModesModel({
@@ -107,22 +114,40 @@ export default function FullFeaturedCrudGrid() {
   };
 
   const processRowUpdate = async (newRow) => {
-    
     if (newRow.isNew) {
-      console.log("ta nueaaa")
-
       if (url === "/evento/mongo/") {
-        try{
-        const { _id, ...newObjectWithoutId } = newRow;
-        console.log(newObjectWithoutId)
-        const response = await axios.post(url, newObjectWithoutId);
-        console.log(response.data.evento)
-      } catch (error) {
-        console.log(error)
+        try {
+          const { _id, ...newObjectWithoutId } = newRow;
+          const response = await axios.post(url, newObjectWithoutId);
+          const updatedRow = {
+            ...response.data.evento,
+            _id: response.data.evento._id,
+          };
+          setRows((prevRows) =>
+            prevRows.map((row) => (row._id === newRow._id ? updatedRow : row))
+          );
+          return updatedRow;
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        try {
+          const response = await axios.post(url, newRow);
+          console.log(response.data.evento)
+          const updatedRow = {
+            ...response.data.evento,
+            _id: response.data.evento._id,
+          };
+          setRows((prevRows) =>
+            prevRows.map((row) => (row._id === newRow._id ? updatedRow : row))
+          );
+          console.log(updatedRow)
+          return updatedRow;
+        } catch (error) {
+          console.log(error);
+        }
       }
-
     }
-  }
 
     try {
       //Manda la wea al backend y espera la respuesta
