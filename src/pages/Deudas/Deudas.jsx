@@ -3,7 +3,7 @@ import PageContainer from "../../components/container/PageContainer";
 import { Box, Button, Typography, Paper, Grid } from "@mui/material";
 /* import CajitaEditable from "./components/Cajita"; */
 import Cajita from "./components/Cajita.jsx";
-
+import CajitaEditable from "./components/CajitaEditable.jsx";
 function Deudas() {
   return (
     <PageContainer title="Pagina inicio" description="aaaaaaaaaaaaaaaaa">
@@ -11,17 +11,11 @@ function Deudas() {
         sx={{
           display: "flex",
           justifyContent: "center",
-          alignItems: "center",
-          width: "100%",
-          backgroundImage: "url()",
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-          backgroundPositionY: "18%",
-          backgroundColor: "white",
+          alignItems: "left",
+          padding: "5%",
         }}
-        minHeight={600}
       >
-        <Cajita />
+        <CajitaEditable />
       </Box>
     </PageContainer>
   );
