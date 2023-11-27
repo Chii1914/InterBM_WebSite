@@ -10,9 +10,8 @@ export default function BasicEditingGrid() {
     axios
       .get(url)
       .then((response) => {
-        // Transforma los datos aquí para asegurarte de que cada fila tenga un `id`
         const transformedData = response.data.usuarios.map((user, index) => ({
-          id: user.id || index, // Usa 'user.id' o genera un índice si 'id' no está disponible
+          id: user.id || index,
           name: user.nombre_completo,
           run: user.run,
           categorias: user.categoria,
@@ -163,6 +162,4 @@ const columns = [
     headerAlign: "left",
     align: "left",
   },
-
-  // Añade más columnas según sea necesario
 ];
