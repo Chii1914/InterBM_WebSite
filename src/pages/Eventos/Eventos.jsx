@@ -16,20 +16,31 @@ import {
 } from "@mui/x-data-grid";
 import { randomId, randomArrayItem } from "@mui/x-data-grid-generator";
 
-const roles = ["Market", "Finance", "Development"];
-const randomRole = () => {
-  return randomArrayItem(roles);
-};
+const url = "/evento/mongo/";
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
 
   const handleClick = () => {
-    const id = randomId();
-    setRows((oldRows) => [...oldRows, { id, name: "", age: "", isNew: true }]);
+    const _id = randomId(); // Ensure this ID is unique
+    // Create a new row with the structure matching your columns
+    const newRow = {
+      _id: _id,
+      titulo: "",
+      descripcion: "",
+      organizador: "",
+      localizacion: "",
+      fecha_hora: new Date().toISOString(), // Set a default date or leave it empty
+      isNew: true
+    };
+  
+    // Add the new row to the existing rows
+    setRows((oldRows) => [...oldRows, newRow]);
+  
+    // Set the new row to be in edit mode
     setRowModesModel((oldModel) => ({
       ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: "name" },
+      [_id]: { mode: GridRowModes.Edit, fieldToFocus: "titulo" }, // Adjust fieldToFocus as needed
     }));
   };
 
@@ -46,7 +57,6 @@ export default function FullFeaturedCrudGrid() {
   const [rows, setRows] = React.useState([]);
 
   React.useEffect(() => {
-    const url = "/evento/mongo";
     axios
       .get(url)
       .then((response) => {
@@ -72,34 +82,12 @@ export default function FullFeaturedCrudGrid() {
     setRowModesModel({ ...rowModesModel, [_id]: { mode: GridRowModes.Edit } });
   };
 
-  const handleSaveClick = (_id) => async () => {
-    const rowToUpdate = rows.find((row) => row._id === _id);
-
-    if (!rowToUpdate) {
-      console.error("Row not found!");
+  const handleSaveClick = (_id) => () => {
+    const updatedRow = rows.find((row) => row._id === _id);
+    if (!updatedRow) {
       return;
     }
-
-    const url = `/evento/mongo/${_id}`;
-
-    try {
-      const response = await axios.patch(url, rowToUpdate);
-      console.log("API response:", response);
-
-      setRows((prevRows) => {
-        const updatedRows = prevRows.map((row) =>
-          row._id === _id ? { ...rowToUpdate, ...response.data } : row
-        );
-        return updatedRows;
-      });
-
-      setRowModesModel((prevModel) => ({
-        ...prevModel,
-        [_id]: { mode: GridRowModes.View },
-      }));
-    } catch (error) {
-      console.error("Error updating row:", error);
-    }
+    setRowModesModel({ ...rowModesModel, [_id]: { mode: GridRowModes.View } });
   };
 
   const handleDeleteClick = (_id) => () => {
@@ -118,12 +106,42 @@ export default function FullFeaturedCrudGrid() {
     }
   };
 
-  const processRowUpdate = (newRow) => {
-    const updatedRow = { ...newRow, isNew: false };
-    setRows((prevRows) =>
-      prevRows.map((row) => (row._id === newRow._id ? updatedRow : row))
-    );
-    return updatedRow;
+  const processRowUpdate = async (newRow) => {
+    
+    if (newRow.isNew) {
+      console.log("ta nueaaa")
+
+      if (url === "/evento/mongo/") {
+        try{
+        const { _id, ...newObjectWithoutId } = newRow;
+        console.log(newObjectWithoutId)
+        const response = await axios.post(url, newObjectWithoutId);
+        console.log(response.data.evento)
+      } catch (error) {
+        console.log(error)
+      }
+
+    }
+  }
+
+    try {
+      //Manda la wea al backend y espera la respuesta
+      const response = await axios.patch(url + newRow._id, newRow);
+      const updatedRow = {
+        ...response.data.evento,
+        _id: response.data.evento._id,
+      };
+
+      //Seteo de row en el front
+      setRows((prevRows) =>
+        prevRows.map((row) => (row._id === newRow._id ? updatedRow : row))
+      );
+      return updatedRow;
+    } catch (error) {
+      // Handle any errors that occur during the update
+      console.error("Error updating row:", error);
+      throw new Error("Failed to update row in backend.");
+    }
   };
 
   const handleRowModesModelChange = (newRowModesModel) => {
@@ -149,7 +167,7 @@ export default function FullFeaturedCrudGrid() {
       editable: true,
     },
     {
-      field: "direccion",
+      field: "localizacion",
       headerName: "Dirección",
       width: 180,
       align: "left",
@@ -157,15 +175,7 @@ export default function FullFeaturedCrudGrid() {
       editable: true,
     },
     {
-      field: "nombre",
-      headerName: "nombre",
-      width: 180,
-      align: "left",
-      headerAlign: "left",
-      editable: true,
-    },
-    {
-      field: "timestamp",
+      field: "fecha_hora",
       headerName: "Fecha",
       type: "dateTime",
       width: 180,
@@ -175,12 +185,21 @@ export default function FullFeaturedCrudGrid() {
         return new Date(params.value);
       },
       valueFormatter: (params) => {
-        // Format the date for display
-        return (
-          params.value.toLocaleDateString() +
-          " " +
-          params.value.toLocaleTimeString()
-        );
+        // Format the date for SQL Server datetime compatibility
+        const date = params.value;
+        const formattedDate =
+          date.getFullYear() +
+          "-" +
+          String(date.getMonth() + 1).padStart(2, "0") +
+          "-" +
+          String(date.getDate()).padStart(2, "0");
+        const formattedTime =
+          String(date.getHours()).padStart(2, "0") +
+          ":" +
+          String(date.getMinutes()).padStart(2, "0") +
+          ":" +
+          String(date.getSeconds()).padStart(2, "0");
+        return formattedDate + " " + formattedTime;
       },
     },
 

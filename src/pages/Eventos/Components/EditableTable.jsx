@@ -72,34 +72,12 @@ export default function FullFeaturedCrudGrid() {
     setRowModesModel({ ...rowModesModel, [_id]: { mode: GridRowModes.Edit } });
   };
 
-  const handleSaveClick = (_id) => async () => {
-    const rowToUpdate = rows.find((row) => row._id === _id);
-
-    if (!rowToUpdate) {
-      console.error("Row not found!");
+  const handleSaveClick = (_id) => () => {
+    const updatedRow = rows.find((row) => row._id === _id);
+    if (!updatedRow) {
       return;
     }
-
-    const url = `/evento/mongo/${_id}`;
-
-    try {
-      const response = await axios.patch(url, rowToUpdate);
-      console.log("API response:", response);
-
-      setRows((prevRows) => {
-        const updatedRows = prevRows.map((row) =>
-          row._id === _id ? { ...rowToUpdate, ...response.data } : row
-        );
-        return updatedRows;
-      });
-
-      setRowModesModel((prevModel) => ({
-        ...prevModel,
-        [_id]: { mode: GridRowModes.View },
-      }));
-    } catch (error) {
-      console.error("Error updating row:", error);
-    }
+    setRowModesModel({ ...rowModesModel, [_id]: { mode: GridRowModes.View } });
   };
 
   const handleDeleteClick = (_id) => () => {
@@ -118,12 +96,26 @@ export default function FullFeaturedCrudGrid() {
     }
   };
 
-  const processRowUpdate = (newRow) => {
-    const updatedRow = { ...newRow, isNew: false };
-    setRows((prevRows) =>
-      prevRows.map((row) => (row._id === newRow._id ? updatedRow : row))
-    );
-    return updatedRow;
+  const processRowUpdate = async (newRow) => {
+    try {
+      // Send the updated row data to your backend
+      const response = await axios.patch(`/api/row/${newRow.id}`, newRow);
+      // Handle the response, assuming the backend returns the updated row data
+      const updatedRow = response.data;
+
+      // Update the local state with the updated row data from the backend
+      setRows((prevRows) =>
+        prevRows.map((row) => (row.id === newRow.id ? updatedRow : row))
+      );
+
+      // Log or handle the updated row here
+      console.log("Updated Row from Backend:", updatedRow);
+      return updatedRow;
+    } catch (error) {
+      // Handle any errors that occur during the update
+      console.error("Error updating row:", error);
+      throw new Error("Failed to update row in backend.");
+    }
   };
 
   const handleRowModesModelChange = (newRowModesModel) => {
