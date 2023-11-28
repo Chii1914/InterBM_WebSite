@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 
 // Función para convertir nombres de categoría
 const formatCategoryName = (name) => {
   return name
     .split('_')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 };
 
-const DataTable = ({
-  category,
-  selectedCategory,
-  onCategorySelect,
-  showAll,
-}) => {
+const DataTable = ({ category, selectedCategory, onCategorySelect, showAll }) => {
   const [data, setData] = useState([]);
   const [isAddingUser, setIsAddingUser] = useState(false);
   const [isEditingUser, setIsEditingUser] = useState(false);
@@ -38,9 +33,37 @@ const DataTable = ({
   }, [category]);
 
   const columns = [
-    { field: 'run', headerName: 'RUN', width: 150 },
-    { field: 'nombre_completo', headerName: 'Nombre Completo', width: 250 },
-    { field: 'categoria', headerName: 'Categoría', width: 150 },
+    {
+      field: 'run',
+      headerName: 'RUN',
+      width: 150,
+      editable: true,
+    },
+    {
+      field: 'nombre_completo',
+      headerName: 'Nombre Completo',
+      width: 250,
+      editable: true,
+    },
+    {
+      field: 'categoria',
+      headerName: 'Categoría',
+      width: 150,
+      editable: true,
+    },
+    {
+      field: 'actions',
+      headerName: 'Acciones',
+      width: 200,
+      renderCell: (params) => {
+        return (
+          <div>
+            <button onClick={() => handleEditUserClick(params.row)}>Editar</button>
+            <button onClick={() => handleDelete(params.row.run)}>Eliminar</button>
+          </div>
+        );
+      },
+    },
   ];
 
   const handleDelete = (run) => {
@@ -137,13 +160,10 @@ const DataTable = ({
 
   return (
     <div className={`data-table ${selectedCategory === category || showAll ? '' : 'hidden'}`}>
-      <h2>{formatCategoryName(category)}</h2> 
+      <h2>{formatCategoryName(category)}</h2>
       <DataGrid
         rows={data}
-        columns={columns.map((column) => ({
-          ...column,
-          cellClassName: 'cell',
-        }))}
+        columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
         checkboxSelection
@@ -222,7 +242,9 @@ const App = () => {
   return (
     <div className="App">
       <div className="category-buttons">
-        <button className="btn" onClick={() => { setSelectedCategory(null); setShowAll(true); }}>Mostrar Todos</button>
+        <button className="btn" onClick={() => { setSelectedCategory(null); setShowAll(true); }}>
+          Mostrar Todos
+        </button>
         {categories.map((category) => (
           <button
             key={category}
