@@ -12,7 +12,7 @@ function Deudas() {
           display: "flex",
           justifyContent: "center",
           alignItems: "left",
-          padding: "5%",
+          padding: "10%",
         }}
       >
         <CajitaEditable />
