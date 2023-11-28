@@ -16,7 +16,7 @@ import {
 } from "@mui/x-data-grid";
 import { randomId, randomArrayItem } from "@mui/x-data-grid-generator";
 
-const url = "/evento/mongo/";
+const url = "/evento/sql/";
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
@@ -47,7 +47,7 @@ function EditToolbar(props) {
   return (
     <GridToolbarContainer>
       <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
-        Add record
+        Añadir Evento
       </Button>
     </GridToolbarContainer>
   );
@@ -126,13 +126,15 @@ export default function FullFeaturedCrudGrid() {
           setRows((prevRows) =>
             prevRows.map((row) => (row._id === newRow._id ? updatedRow : row))
           );
+          console.log(updatedRow)
           return updatedRow;
         } catch (error) {
           console.log(error);
         }
       } else {
         try {
-          const response = await axios.post(url, newRow);
+          const { isNew, ...newObjectWithoutId } = newRow;
+          const response = await axios.post(url, newObjectWithoutId);
           console.log(response.data.evento)
           const updatedRow = {
             ...response.data.evento,
@@ -161,6 +163,8 @@ export default function FullFeaturedCrudGrid() {
       setRows((prevRows) =>
         prevRows.map((row) => (row._id === newRow._id ? updatedRow : row))
       );
+      console.log(updatedRow)
+
       return updatedRow;
     } catch (error) {
       // Handle any errors that occur during the update
@@ -231,7 +235,7 @@ export default function FullFeaturedCrudGrid() {
     {
       field: "actions",
       type: "actions",
-      headerName: "Actions",
+      headerName: "Acciones",
       width: 100,
       cellClassName: "actions",
       getActions: ({ id: _id }) => {
