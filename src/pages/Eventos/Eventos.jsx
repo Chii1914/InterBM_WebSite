@@ -16,7 +16,7 @@ import {
 } from "@mui/x-data-grid";
 import { randomId, randomArrayItem } from "@mui/x-data-grid-generator";
 
-const url = "/evento/mongo/";
+const url = "/evento/sql/";
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
