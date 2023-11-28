@@ -1,20 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { DataGrid } from '@mui/x-data-grid';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { DataGrid } from "@mui/x-data-grid";
 
 // Función para convertir nombres de categoría
 const formatCategoryName = (name) => {
   return name
-    .split('_')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+    .split("_")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 };
 
-const DataTable = ({ category, selectedCategory, onCategorySelect, showAll }) => {
+const DataTable = ({
+  category,
+  selectedCategory,
+  onCategorySelect,
+  showAll,
+}) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get(`http://localhost:4000/usercat/${category}`)
+    axios
+      .get(`http://localhost:4000/usercat/${category}`)
       .then((response) => {
         setData(response.data.usuarios);
       })
@@ -24,19 +30,23 @@ const DataTable = ({ category, selectedCategory, onCategorySelect, showAll }) =>
   }, [category]);
 
   const columns = [
-    { field: 'run', headerName: 'RUN', width: 150 },
-    { field: 'nombre_completo', headerName: 'Nombre Completo', width: 250 },
-    { field: 'categoria', headerName: 'Categoría', width: 150 },
+    { field: "run", headerName: "RUN", width: 150 },
+    { field: "nombre_completo", headerName: "Nombre Completo", width: 250 },
+    { field: "categoria", headerName: "Categoría", width: 150 },
   ];
 
   return (
-    <div className={`data-table ${selectedCategory === category || showAll ? '' : 'hidden'}`}>
-      <h2>{formatCategoryName(category)}</h2> 
+    <div
+      className={`data-table ${
+        selectedCategory === category || showAll ? "" : "hidden"
+      }`}
+    >
+      <h2>{formatCategoryName(category)}</h2>
       <DataGrid
         rows={data}
         columns={columns.map((column) => ({
           ...column,
-          cellClassName: 'cell',
+          cellClassName: "cell",
         }))}
         pageSize={5}
         rowsPerPageOptions={[5]}
@@ -68,9 +78,26 @@ const App = () => {
   return (
     <div className="App">
       <div className="category-buttons">
-        <button className="btn" onClick={() => { setSelectedCategory(null); setShowAll(true); }}>Mostrar Todos</button>
+        <button
+          className="btn"
+          onClick={() => {
+            setSelectedCategory(null);
+            setShowAll(true);
+          }}
+        >
+          Mostrar Todos
+        </button>
         {categories.map((category) => (
-          <button key={category} className="btn" onClick={() => { setSelectedCategory(category); setShowAll(false); }}>{formatCategoryName(category)}</button>
+          <button
+            key={category}
+            className="btn"
+            onClick={() => {
+              setSelectedCategory(category);
+              setShowAll(false);
+            }}
+          >
+            {formatCategoryName(category)}
+          </button>
         ))}
       </div>
       {categories.map((category) => (
