@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { computeHeadingLevel } from '@testing-library/react';
 
 // Función para convertir nombres de categoría
 const formatCategoryName = (name) => {
@@ -35,7 +36,7 @@ const DataTable = ({ category, selectedCategory, onCategorySelect, showAll }) =>
   const columns = [
     {
       field: 'run',
-      headerName: 'RUN',
+      headerName: 'run',
       width: 150,
       editable: true,
     },
@@ -115,7 +116,7 @@ const DataTable = ({ category, selectedCategory, onCategorySelect, showAll }) =>
 
   const handleAddUserSubmit = async () => {
     try {
-      const response = await axios.post('http://localhost:4000/user/', newUserData);
+      const response = await axios.post('http://localhost:4000/user', newUserData);
       if (response.data.status) {
         // Agregar el usuario al estado si es necesario
         // Por ejemplo, si mantienes una lista de usuarios en el estado
@@ -140,9 +141,10 @@ const DataTable = ({ category, selectedCategory, onCategorySelect, showAll }) =>
   const handleEditUserSubmit = () => {
     // The category should be validated or transformed if necessary
     const validCategory = formatCategoryName(editedUserData.categoria);
+    console.log(editedUserData)
 
     axios
-      .patch(`http://localhost:4000/user/${editedUserData.run}`, { ...editedUserData, categoria: validCategory })
+      .patch(`http://localhost:4000/user/${editedUserData.run}`, editedUserData)
       .then(() => {
         // Ensure the data is updated correctly in the state
         setData((prevData) =>
@@ -179,11 +181,11 @@ const DataTable = ({ category, selectedCategory, onCategorySelect, showAll }) =>
           <h3>{isEditingUser ? 'Editar Usuario' : 'Agregar Nuevo Usuario'}</h3>
           <input
             type="text"
-            placeholder="RUN"
+            placeholder="run"
             value={isEditingUser ? editedUserData.run : newUserData.run}
             onChange={(e) =>
               isEditingUser
-                ? setEditedUserData({ ...editedUserData, run: e.target.value })
+                ? setEditedUserData({ ...editedUserData, RUN: e.target.value })
                 : setNewUserData({ ...newUserData, run: e.target.value })
             }
           />
